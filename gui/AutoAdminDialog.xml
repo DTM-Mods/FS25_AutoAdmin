@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<!-- Auto Admin: the admin screen. Header with the role counts, the player list on the left, the selected player and
+     the server setting on the right, the actions in the button bar. Sizes for 1920 x 1080.
+     Fills, tiles and icons are cells of gui/autoAdmin_ui.dds: elements named "aaImg_<cell>" get theirs in
+     AutoAdminGui.applyStaticImages, the rest in AutoAdminDialog.lua. tools/preview_dialog.py draws the same layout. -->
+<GUI onOpen="onOpen" onClose="onClose" onCreate="onCreate">
+    <GuiElement profile="newLayer"/>
+    <Bitmap profile="dialogFullscreenBg"/>
+
+    <GuiElement profile="aaDialogBg" id="dialogElement">
+        <ThreePartBitmap profile="fs25_dialogBgMiddle"/>
+        <ThreePartBitmap profile="fs25_dialogBgTop"/>
+        <ThreePartBitmap profile="fs25_dialogBgBottom"/>
+
+        <GuiElement profile="fs25_dialogContentContainer">
+            <GuiElement profile="aaContent">
+                <!-- header -->
+                <Bitmap profile="aaHeadTile" name="aaImg_tile"/>
+                <Bitmap profile="aaHeadIcon" name="aaImg_shield"/>
+                <Text profile="aaBrand" text="$l10n_aa_brand"/>
+                <Text profile="aaTitle" text="$l10n_aa_title"/>
+                <Text profile="aaSubtitle" id="subtitleText"/>
+
+                <GuiElement profile="aaChip" position="710px -4px">
+                    <Bitmap profile="aaChipBg" name="aaImg_solid"/>
+                    <Bitmap profile="aaChipAccentSuper" name="aaImg_solid"/>
+                    <Bitmap profile="aaChipIconSuper" name="aaImg_crown"/>
+                    <Text profile="aaChipValue" id="statSuper"/>
+                    <Text profile="aaChipLabel" text="$l10n_aa_stat_super"/>
+                </GuiElement>
+                <GuiElement profile="aaChip" position="870px -4px">
+                    <Bitmap profile="aaChipBg" name="aaImg_solid"/>
+                    <Bitmap profile="aaChipAccentAdmin" name="aaImg_solid"/>
+                    <Bitmap profile="aaChipIconAdmin" name="aaImg_shield"/>
+                    <Text profile="aaChipValue" id="statAdmin"/>
+                    <Text profile="aaChipLabel" text="$l10n_aa_stat_admin"/>
+                </GuiElement>
+                <GuiElement profile="aaChip" position="1030px -4px">
+                    <Bitmap profile="aaChipBg" name="aaImg_solid"/>
+                    <Bitmap profile="aaChipAccentMember" name="aaImg_solid"/>
+                    <Bitmap profile="aaChipIconMember" name="aaImg_user"/>
+                    <Text profile="aaChipValue" id="statMember"/>
+                    <Text profile="aaChipLabel" text="$l10n_aa_stat_member"/>
+                </GuiElement>
+                <Bitmap profile="aaRule" position="0px -84px" size="1180px 1dp" name="aaImg_solid"/>
+
+                <!-- players -->
+                <GuiElement profile="aaCard" position="0px -100px" size="770px 600px">
+                    <Bitmap profile="aaCardEdge" size="770px 600px" name="aaImg_solid"/>
+                    <Bitmap profile="aaCardBg" size="768px 598px" name="aaImg_solid"/>
+                    <Text profile="aaCardTitle" text="$l10n_aa_players"/>
+                    <Text profile="aaColumn" position="84px -50px" text="$l10n_aa_col_player"/>
+                    <Text profile="aaColumnCenter" position="470px -50px" text="$l10n_aa_col_role"/>
+                    <Text profile="aaColumn" position="612px -50px" text="$l10n_aa_col_last"/>
+                    <Bitmap profile="aaRule" position="12px -76px" size="746px 1dp" name="aaImg_solid"/>
+
+                    <SmoothList profile="aaList" id="playerList" listItemSpacing="4px">
+                        <ListItem profile="aaRow">
+                            <Bitmap profile="aaRowOutline" name="aaImg_solid"/>
+                            <Bitmap profile="aaRowFill" name="aaImg_solid"/>
+                            <Bitmap profile="aaRowAvatarTile" name="avatarTile"/>
+                            <Bitmap profile="aaRowAvatarIcon" name="avatarIcon"/>
+                            <Bitmap profile="aaRowDotRing" name="aaImg_circle"/>
+                            <Bitmap profile="aaRowDot" name="onlineDot"/>
+                            <Text profile="aaRowName" name="name"/>
+                            <Text profile="aaRowSub" name="sub"/>
+                            <Bitmap profile="aaRowBadgeBg" name="badgeBg"/>
+                            <Text profile="aaRowBadge" name="badge"/>
+                            <Text profile="aaRowDate" name="lastDate"/>
+                            <Text profile="aaRowTime" name="lastTime"/>
+                            <Bitmap profile="aaRowChevron" name="aaImg_chevron"/>
+                        </ListItem>
+                    </SmoothList>
+                    <ThreePartBitmap profile="fs25_listSliderBox" position="-6px -84px" size="10px 506px" with="anchorTopRight">
+                        <Slider profile="fs25_listSlider" size="6px 498px" dataElementId="playerList"/>
+                    </ThreePartBitmap>
+                    <Text profile="aaListNote" id="loadingText" text="$l10n_aa_loading"/>
+                    <Text profile="aaListNote" id="emptyText" text="$l10n_aa_empty"/>
+                </GuiElement>
+
+                <!-- the selected player -->
+                <GuiElement profile="aaCard" position="790px -100px" size="390px 600px">
+                    <Bitmap profile="aaCardEdge" size="390px 600px" name="aaImg_solid"/>
+                    <Bitmap profile="aaCardBg" size="388px 598px" name="aaImg_solid"/>
+                    <Text profile="aaCardTitle" text="$l10n_aa_details"/>
+                    <Bitmap profile="aaRule" position="12px -48px" size="366px 1dp" name="aaImg_solid"/>
+                    <Text profile="aaDetailEmpty" id="detailEmpty" text="$l10n_aa_selectPlayer"/>
+
+                    <GuiElement profile="aaFull" id="detailBox">
+                        <Bitmap profile="aaDetailTile" name="aaImg_tile"/>
+                        <Bitmap profile="aaDetailIcon" id="detailAvatarIcon"/>
+                        <Bitmap profile="aaDetailAccent" id="detailAccent" name="aaImg_solid"/>
+                        <Text profile="aaDetailName" id="detailName"/>
+                        <Text profile="aaDetailRole" id="detailRole"/>
+
+                        <Text profile="aaInfoKey" position="20px -158px" text="$l10n_aa_info_status"/>
+                        <Text profile="aaInfoValue" position="-20px -158px" id="valStatus"/>
+                        <Text profile="aaInfoKey" position="20px -190px" text="$l10n_aa_info_firstSeen"/>
+                        <Text profile="aaInfoValue" position="-20px -190px" id="valFirstSeen"/>
+                        <Text profile="aaInfoKey" position="20px -222px" text="$l10n_aa_info_lastSeen"/>
+                        <Text profile="aaInfoValue" position="-20px -222px" id="valLastSeen"/>
+                        <Text profile="aaInfoKey" position="20px -254px" text="$l10n_aa_info_changed"/>
+                        <Text profile="aaInfoValue" position="-20px -254px" id="valChanged"/>
+                        <Text profile="aaInfoKey" position="20px -286px" text="$l10n_aa_info_changedBy"/>
+                        <Text profile="aaInfoValue" position="-20px -286px" id="valChangedBy"/>
+                        <Text profile="aaInfoKey" position="20px -318px" text="$l10n_aa_info_restored"/>
+                        <Text profile="aaInfoValue" position="-20px -318px" id="valRestored"/>
+                        <Text profile="aaDetailNote" id="detailNote"/>
+                    </GuiElement>
+
+                    <Bitmap profile="aaRule" position="12px -398px" size="366px 1dp" name="aaImg_solid"/>
+                    <Text profile="aaCardTitle" position="20px -412px" text="$l10n_aa_setting"/>
+                    <GuiElement profile="aaToggle">
+                        <Bitmap profile="aaToggleBg" name="aaImg_solid"/>
+                        <Bitmap profile="aaToggleIcon" name="aaImg_key"/>
+                        <Text profile="aaToggleLabel" text="$l10n_aa_remember"/>
+                        <Text profile="aaToggleHint" text="$l10n_aa_rememberHint"/>
+                        <Bitmap profile="aaPill" id="rememberPill"/>
+                        <Text profile="aaPillText" id="rememberPillText"/>
+                        <Button profile="aaToggleButton" id="rememberButton" onClick="onClickRemember"/>
+                    </GuiElement>
+                    <Text profile="aaPermissionNote" id="permissionNote"/>
+                </GuiElement>
+
+                <Text profile="aaStatus" id="statusText"/>
+            </GuiElement>
+        </GuiElement>
+
+        <BoxLayout profile="fs25_dialogButtonBox" id="buttonBox" size="1180px 60px">
+            <Button profile="buttonOK" id="primaryButton" onClick="onClickPrimary"/>
+            <Bitmap profile="fs25_dialogButtonBoxSeparator" id="primarySeparator"/>
+            <Button profile="buttonActivate" id="superButton" onClick="onClickSuper"/>
+            <Bitmap profile="fs25_dialogButtonBoxSeparator" id="superSeparator"/>
+            <Button profile="buttonExtra1" id="forgetButton" onClick="onClickForget"/>
+            <Bitmap profile="fs25_dialogButtonBoxSeparator" id="forgetSeparator"/>
+            <Button profile="buttonBack" text="$l10n_aa_button_back" onClick="onClickBack"/>
+        </BoxLayout>
+    </GuiElement>
+
+    <GUIProfiles>
+        <Profile name="aaDialogBg" extends="fs25_dialogBg">
+            <size value="1240px 870px"/>
+        </Profile>
+        <Profile name="aaContent" extends="emptyPanel" with="anchorTopCenter">
+            <size value="1180px 750px"/>
+        </Profile>
+        <Profile name="aaFull" extends="emptyPanel" with="anchorTopLeft">
+            <size value="390px 400px"/>
+        </Profile>
+
+        <!-- base shapes: every Bitmap gets a cell of our sheet -->
+        <Profile name="aaShape" extends="baseReference" with="anchorTopLeft">
+            <imageColor value="1 1 1 1"/>
+        </Profile>
+        <Profile name="aaText" extends="baseReference" with="anchorTopLeft">
+            <textSize value="14px"/>
+            <textColor value="0.957 0.945 0.910 1"/>
+            <textAlignment value="left"/>
+            <textVerticalAlignment value="middle"/>
+        </Profile>
+        <Profile name="aaRule" extends="aaShape">
+            <imageColor value="1 1 1 0.10"/>
+        </Profile>
+
+        <!-- header -->
+        <Profile name="aaHeadTile" extends="aaShape">
+            <position value="0px -6px"/>
+            <size value="64px 64px"/>
+            <imageColor value="0.851 0.643 0.255 1"/>
+        </Profile>
+        <Profile name="aaHeadIcon" extends="aaShape">
+            <position value="12px -18px"/>
+            <size value="40px 40px"/>
+            <imageColor value="0.078 0.200 0.149 1"/>
+        </Profile>
+        <Profile name="aaBrand" extends="aaText">
+            <position value="82px -4px"/>
+            <size value="500px 20px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textUpperCase value="true"/>
+            <textColor value="0.851 0.643 0.255 1"/>
+        </Profile>
+        <Profile name="aaTitle" extends="aaText">
+            <position value="82px -24px"/>
+            <size value="600px 36px"/>
+            <textSize value="28px"/>
+            <textBold value="true"/>
+        </Profile>
+        <Profile name="aaSubtitle" extends="aaText">
+            <position value="82px -60px"/>
+            <size value="600px 20px"/>
+            <textSize value="14px"/>
+            <textColor value="0.600 0.612 0.588 1"/>
+        </Profile>
+        <Profile name="aaChip" extends="emptyPanel" with="anchorTopLeft">
+            <size value="150px 66px"/>
+        </Profile>
+        <Profile name="aaChipBg" extends="aaShape">
+            <size value="150px 66px"/>
+            <imageColor value="0.118 0.122 0.114 1"/>
+        </Profile>
+        <Profile name="aaChipAccent" extends="aaShape">
+            <size value="4px 66px"/>
+        </Profile>
+        <Profile name="aaChipIcon" extends="aaShape">
+            <position value="118px -10px"/>
+            <size value="20px 20px"/>
+        </Profile>
+        <Profile name="aaChipAccentSuper" extends="aaChipAccent"><imageColor value="0.851 0.643 0.255 1"/></Profile>
+        <Profile name="aaChipAccentAdmin" extends="aaChipAccent"><imageColor value="0.435 0.749 0.541 1"/></Profile>
+        <Profile name="aaChipAccentMember" extends="aaChipAccent"><imageColor value="0.659 0.671 0.639 1"/></Profile>
+        <Profile name="aaChipIconSuper" extends="aaChipIcon"><imageColor value="0.851 0.643 0.255 1"/></Profile>
+        <Profile name="aaChipIconAdmin" extends="aaChipIcon"><imageColor value="0.435 0.749 0.541 1"/></Profile>
+        <Profile name="aaChipIconMember" extends="aaChipIcon"><imageColor value="0.659 0.671 0.639 1"/></Profile>
+        <Profile name="aaColumnCenter" extends="aaColumn">
+            <size value="128px 20px"/>
+            <textAlignment value="center"/>
+        </Profile>
+        <Profile name="aaChipValue" extends="aaText">
+            <position value="18px -6px"/>
+            <size value="96px 34px"/>
+            <textSize value="28px"/>
+            <textBold value="true"/>
+        </Profile>
+        <Profile name="aaChipLabel" extends="aaText">
+            <position value="18px -42px"/>
+            <size value="126px 16px"/>
+            <textSize value="11px"/>
+            <textBold value="true"/>
+            <textUpperCase value="true"/>
+            <textColor value="0.600 0.612 0.588 1"/>
+        </Profile>
+
+        <!-- cards -->
+        <Profile name="aaCard" extends="emptyPanel" with="anchorTopLeft"/>
+        <Profile name="aaCardEdge" extends="aaShape">
+            <imageColor value="0.192 0.200 0.184 1"/>
+        </Profile>
+        <Profile name="aaCardBg" extends="aaShape">
+            <position value="1px -1px"/>
+            <imageColor value="0.086 0.090 0.082 1"/>
+        </Profile>
+        <Profile name="aaCardTitle" extends="aaText">
+            <position value="20px -14px"/>
+            <size value="340px 24px"/>
+            <textSize value="15px"/>
+            <textBold value="true"/>
+            <textUpperCase value="true"/>
+        </Profile>
+        <Profile name="aaColumn" extends="aaText">
+            <size value="200px 20px"/>
+            <textSize value="11px"/>
+            <textBold value="true"/>
+            <textUpperCase value="true"/>
+            <textColor value="0.600 0.612 0.588 1"/>
+        </Profile>
+        <Profile name="aaList" extends="emptyPanel" with="anchorTopLeft">
+            <position value="12px -84px"/>
+            <size value="730px 506px"/>
+        </Profile>
+        <Profile name="aaListNote" extends="aaText">
+            <position value="20px -150px"/>
+            <size value="730px 80px"/>
+            <textSize value="15px"/>
+            <textColor value="0.600 0.612 0.588 1"/>
+            <textAlignment value="center"/>
+            <textWrapWidth value="600px"/>
+        </Profile>
+
+        <!-- a player row: selected = gold outline + warm fill -->
+        <Profile name="aaRow" extends="baseReference" with="anchorTopStretchingX">
+            <height value="64px"/>
+            <imageColor value="0 0 0 0"/>
+            <imageSelectedColor value="0 0 0 0"/>
+            <imageFocusedColor value="0 0 0 0"/>
+            <imageHighlightedColor value="0 0 0 0"/>
+        </Profile>
+        <Profile name="aaRowOutline" extends="aaShape">
+            <size value="730px 64px"/>
+            <imageColor value="0 0 0 0"/>
+            <imageSelectedColor value="0.851 0.643 0.255 1"/>
+            <imageHighlightedColor value="0.851 0.643 0.255 0.35"/>
+        </Profile>
+        <Profile name="aaRowFill" extends="aaShape">
+            <position value="2px -2px"/>
+            <size value="726px 60px"/>
+            <imageColor value="0.122 0.126 0.118 1"/>
+            <imageSelectedColor value="0.176 0.157 0.110 1"/>
+            <imageHighlightedColor value="0.149 0.153 0.141 1"/>
+        </Profile>
+        <Profile name="aaRowAvatarTile" extends="aaShape">
+            <position value="12px -10px"/>
+            <size value="44px 44px"/>
+            <imageColor value="0.157 0.169 0.149 1"/>
+            <imageSelectedColor value="0.231 0.208 0.141 1"/>
+        </Profile>
+        <Profile name="aaRowAvatarIcon" extends="aaShape">
+            <position value="20px -18px"/>
+            <size value="28px 28px"/>
+        </Profile>
+        <Profile name="aaRowDotRing" extends="aaShape">
+            <position value="44px -42px"/>
+            <size value="16px 16px"/>
+            <imageColor value="0.122 0.126 0.118 1"/>
+            <imageSelectedColor value="0.176 0.157 0.110 1"/>
+            <imageHighlightedColor value="0.149 0.153 0.141 1"/>
+        </Profile>
+        <Profile name="aaRowDot" extends="aaShape">
+            <position value="47px -45px"/>
+            <size value="10px 10px"/>
+        </Profile>
+        <Profile name="aaRowName" extends="aaText">
+            <position value="72px -9px"/>
+            <size value="380px 26px"/>
+            <textSize value="17px"/>
+            <textBold value="true"/>
+            <textLayoutMode value="scrolling"/>
+        </Profile>
+        <Profile name="aaRowSub" extends="aaText">
+            <position value="72px -35px"/>
+            <size value="380px 20px"/>
+            <textSize value="13px"/>
+            <textColor value="0.600 0.612 0.588 1"/>
+            <textLayoutMode value="scrolling"/>
+        </Profile>
+        <Profile name="aaRowBadgeBg" extends="aaShape">
+            <position value="458px -18px"/>
+            <size value="128px 28px"/>
+        </Profile>
+        <Profile name="aaRowBadge" extends="aaText">
+            <position value="458px -18px"/>
+            <size value="128px 28px"/>
+            <textSize value="12px"/>
+            <textBold value="true"/>
+            <textUpperCase value="true"/>
+            <textAlignment value="center"/>
+        </Profile>
+        <Profile name="aaRowDate" extends="aaText">
+            <position value="600px -11px"/>
+            <size value="100px 22px"/>
+            <textSize value="14px"/>
+        </Profile>
+        <Profile name="aaRowTime" extends="aaText">
+            <position value="600px -33px"/>
+            <size value="100px 20px"/>
+            <textSize value="13px"/>
+            <textColor value="0.600 0.612 0.588 1"/>
+        </Profile>
+        <Profile name="aaRowChevron" extends="aaShape">
+            <position value="702px -24px"/>
+            <size value="16px 16px"/>
+            <imageColor value="0.345 0.357 0.337 1"/>
+            <imageSelectedColor value="0.851 0.643 0.255 1"/>
+        </Profile>
+
+        <!-- details -->
+        <Profile name="aaDetailEmpty" extends="aaText">
+            <position value="20px -150px"/>
+            <size value="350px 60px"/>
+            <textSize value="15px"/>
+            <textColor value="0.600 0.612 0.588 1"/>
+            <textAlignment value="center"/>
+            <textWrapWidth value="330px"/>
+        </Profile>
+        <Profile name="aaDetailTile" extends="aaShape">
+            <position value="20px -64px"/>
+            <size value="72px 72px"/>
+            <imageColor value="0.157 0.169 0.149 1"/>
+        </Profile>
+        <Profile name="aaDetailIcon" extends="aaShape">
+            <position value="34px -78px"/>
+            <size value="44px 44px"/>
+        </Profile>
+        <Profile name="aaDetailAccent" extends="aaShape">
+            <position value="108px -128px"/>
+            <size value="40px 3px"/>
+        </Profile>
+        <Profile name="aaDetailName" extends="aaText">
+            <position value="108px -64px"/>
+            <size value="266px 32px"/>
+            <textSize value="22px"/>
+            <textBold value="true"/>
+            <textLayoutMode value="scrolling"/>
+        </Profile>
+        <Profile name="aaDetailRole" extends="aaText">
+            <position value="108px -98px"/>
+            <size value="266px 22px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textUpperCase value="true"/>
+        </Profile>
+        <Profile name="aaInfoKey" extends="aaText">
+            <size value="150px 24px"/>
+            <textSize value="12px"/>
+            <textBold value="true"/>
+            <textUpperCase value="true"/>
+            <textColor value="0.600 0.612 0.588 1"/>
+        </Profile>
+        <Profile name="aaInfoValue" extends="aaText" with="anchorTopRight">
+            <size value="220px 24px"/>
+            <textSize value="14px"/>
+            <textAlignment value="right"/>
+            <textLayoutMode value="scrolling"/>
+        </Profile>
+        <Profile name="aaDetailNote" extends="aaText">
+            <position value="20px -348px"/>
+            <size value="350px 40px"/>
+            <textSize value="12px"/>
+            <textColor value="0.914 0.780 0.478 1"/>
+            <textVerticalAlignment value="top"/>
+            <textWrapWidth value="350px"/>
+        </Profile>
+
+        <!-- the server setting -->
+        <Profile name="aaToggle" extends="emptyPanel" with="anchorTopLeft">
+            <position value="12px -444px"/>
+            <size value="366px 84px"/>
+        </Profile>
+        <Profile name="aaToggleBg" extends="aaShape">
+            <size value="366px 84px"/>
+            <imageColor value="0.122 0.126 0.118 1"/>
+        </Profile>
+        <Profile name="aaToggleIcon" extends="aaShape">
+            <position value="14px -14px"/>
+            <size value="24px 24px"/>
+            <imageColor value="0.851 0.643 0.255 1"/>
+        </Profile>
+        <Profile name="aaToggleLabel" extends="aaText">
+            <position value="48px -12px"/>
+            <size value="230px 28px"/>
+            <textSize value="15px"/>
+            <textBold value="true"/>
+        </Profile>
+        <Profile name="aaToggleHint" extends="aaText">
+            <position value="48px -40px"/>
+            <size value="230px 36px"/>
+            <textSize value="12px"/>
+            <textColor value="0.600 0.612 0.588 1"/>
+            <textVerticalAlignment value="top"/>
+            <textWrapWidth value="230px"/>
+        </Profile>
+        <Profile name="aaPill" extends="aaShape" with="anchorTopRight">
+            <position value="-16px -28px"/>
+            <size value="64px 28px"/>
+        </Profile>
+        <Profile name="aaPillText" extends="aaText" with="anchorTopRight">
+            <position value="-16px -28px"/>
+            <size value="64px 28px"/>
+            <textSize value="12px"/>
+            <textBold value="true"/>
+            <textAlignment value="center"/>
+        </Profile>
+        <!-- invisible button over the setting: click toggles it; transparent in every state -->
+        <Profile name="aaToggleButton" extends="baseReference" with="anchorTopLeft">
+            <size value="366px 84px"/>
+            <handleFocus value="false"/>
+            <hideKeyboardGlyph value="true"/>
+            <imageColor value="0 0 0 0"/>
+            <imageFocusedColor value="0 0 0 0"/>
+            <imageHighlightedColor value="0 0 0 0"/>
+            <imageSelectedColor value="0 0 0 0"/>
+            <imageDisabledColor value="0 0 0 0"/>
+            <textColor value="0 0 0 0"/>
+            <textFocusedColor value="0 0 0 0"/>
+            <textHighlightedColor value="0 0 0 0"/>
+            <textSelectedColor value="0 0 0 0"/>
+            <textDisabledColor value="0 0 0 0"/>
+        </Profile>
+        <Profile name="aaPermissionNote" extends="aaText">
+            <position value="20px -540px"/>
+            <size value="350px 50px"/>
+            <textSize value="12px"/>
+            <textColor value="0.600 0.612 0.588 1"/>
+            <textVerticalAlignment value="top"/>
+            <textWrapWidth value="350px"/>
+        </Profile>
+
+        <Profile name="aaStatus" extends="aaText">
+            <position value="0px -712px"/>
+            <size value="1180px 28px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="0.914 0.780 0.478 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+    </GUIProfiles>
+</GUI>

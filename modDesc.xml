@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<modDesc descVersion="116">
+    <author>DTM Mods, Fennell</author>
+    <version>1.0.0.0</version>
+    <title>
+        <en>Auto Admin</en>
+    </title>
+    <description>
+        <en><![CDATA[Description: The server remembers who its admins are and makes them admin again every time they join. No password is saved anywhere, not on the server and not on the players' computers.
+Hotkeys: Left Alt+A opens the admin screen (admins only). Controller: none by default, set one under Settings > Controls.
+GitHub: https://github.com/DTM-Mods/FS25_AutoAdmin
+
+Three roles:
+- Super admin: admin on every join. Can't be demoted in the game, only in the server's file.
+- Admin: admin on every join. A super admin can demote them to member, right away, even while they play.
+- Member: everybody else, no admin rights.
+
+The admin screen lists every player who has joined the server with their role, whether they are online and when they last joined. Super admins promote and demote players there; admins can look at the list.
+
+The admin password works as before. The first player who logs in with it becomes the super admin. After that, a member who logs in with it becomes an admin (this can be turned off in the admin screen). A player a super admin demoted can't make themselves admin again with the password.
+
+Multiplayer only: install it on the server and on every player's game. The list is kept on the server in modSettings/FS25_AutoAdmin/admins.xml.]]></en>
+        <de><![CDATA[Beschreibung: Der Server merkt sich, wer seine Admins sind, und macht sie bei jedem Beitreten wieder zum Admin. Es wird nirgends ein Passwort gespeichert, weder auf dem Server noch auf den Rechnern der Spieler.
+Tastenkombinationen: Linke Alt-Taste+A öffnet die Admin-Übersicht (nur für Admins). Controller: standardmäßig keine Belegung, unter Einstellungen > Steuerung festlegen.
+GitHub: https://github.com/DTM-Mods/FS25_AutoAdmin
+
+Drei Rollen:
+- Super-Admin: bei jedem Beitreten Admin. Kann im Spiel nicht herabgestuft werden, nur in der Datei auf dem Server.
+- Admin: bei jedem Beitreten Admin. Ein Super-Admin kann ihn zum Mitglied herabstufen, sofort, auch während er spielt.
+- Mitglied: alle anderen, ohne Admin-Rechte.
+
+Die Admin-Übersicht zeigt jeden Spieler, der dem Server beigetreten ist, mit seiner Rolle, ob er online ist und wann er zuletzt beigetreten ist. Super-Admins befördern und stufen dort Spieler herab; Admins können die Liste ansehen.
+
+Das Admin-Passwort funktioniert wie bisher. Der erste Spieler, der sich damit anmeldet, wird Super-Admin. Danach wird ein Mitglied, das sich damit anmeldet, zum Admin (lässt sich in der Admin-Übersicht abschalten). Ein Spieler, den ein Super-Admin herabgestuft hat, kann sich mit dem Passwort nicht wieder zum Admin machen.
+
+Nur für den Mehrspielermodus: auf dem Server und im Spiel jedes Spielers installieren. Die Liste liegt auf dem Server in modSettings/FS25_AutoAdmin/admins.xml.]]></de>
+    </description>
+    <iconFilename>icon_autoAdmin.dds</iconFilename>
+    <multiplayer supported="true" />
+
+    <extraSourceFiles>
+        <sourceFile filename="scripts/AutoAdmin.lua" />
+        <sourceFile filename="scripts/AutoAdminEvents.lua" />
+        <sourceFile filename="scripts/gui/AutoAdminGui.lua" />
+        <sourceFile filename="scripts/gui/AutoAdminDialog.lua" />
+    </extraSourceFiles>
+
+    <actions>
+        <action name="AUTOADMIN_OPEN" />
+    </actions>
+
+    <inputBinding>
+        <actionBinding action="AUTOADMIN_OPEN">
+            <binding device="KB_MOUSE_DEFAULT" input="KEY_lalt KEY_a" />
+        </actionBinding>
+    </inputBinding>
+
+    <l10n>
+        <text name="input_AUTOADMIN_OPEN"><en>Open the admin screen (Auto Admin)</en><de>Admin-Übersicht öffnen (Auto Admin)</de></text>
+
+        <!-- the admin screen -->
+        <text name="aa_brand"><en>Auto Admin</en><de>Auto Admin</de></text>
+        <text name="aa_title"><en>Server roles</en><de>Server-Rollen</de></text>
+        <text name="aa_subtitle"><en>%d online now  ·  %d players on the list</en><de>%d jetzt online  ·  %d Spieler auf der Liste</de></text>
+        <text name="aa_loading"><en>Loading from the server...</en><de>Wird vom Server geladen...</de></text>
+        <text name="aa_empty"><en>Nobody on the list yet. Every player who joins the server shows up here.</en><de>Noch niemand auf der Liste. Jeder Spieler, der dem Server beitritt, erscheint hier.</de></text>
+        <text name="aa_stat_super"><en>Super admins</en><de>Super-Admins</de></text>
+        <text name="aa_stat_admin"><en>Admins</en><de>Admins</de></text>
+        <text name="aa_stat_member"><en>Members</en><de>Mitglieder</de></text>
+        <text name="aa_players"><en>Players</en><de>Spieler</de></text>
+        <text name="aa_col_player"><en>Player</en><de>Spieler</de></text>
+        <text name="aa_col_role"><en>Role</en><de>Rolle</de></text>
+        <text name="aa_col_last"><en>Last joined</en><de>Zuletzt da</de></text>
+        <text name="aa_details"><en>Details</en><de>Details</de></text>
+        <text name="aa_selectPlayer"><en>Select a player in the list.</en><de>Wähle einen Spieler in der Liste aus.</de></text>
+        <text name="aa_info_status"><en>Status</en><de>Status</de></text>
+        <text name="aa_info_firstSeen"><en>First seen</en><de>Zuerst gesehen</de></text>
+        <text name="aa_info_lastSeen"><en>Last joined</en><de>Zuletzt beigetreten</de></text>
+        <text name="aa_info_changed"><en>Role given</en><de>Rolle vergeben</de></text>
+        <text name="aa_info_changedBy"><en>Given by</en><de>Vergeben von</de></text>
+        <text name="aa_info_restored"><en>Admin restored</en><de>Admin erneuert</de></text>
+        <text name="aa_setting"><en>Server setting</en><de>Server-Einstellung</de></text>
+        <text name="aa_remember"><en>Remember password logins</en><de>Passwort-Anmeldungen merken</de></text>
+        <text name="aa_rememberHint"><en>Members who log in with the admin password become admins.</en><de>Mitglieder, die sich mit dem Admin-Passwort anmelden, werden Admins.</de></text>
+        <text name="aa_on"><en>On</en><de>An</de></text>
+        <text name="aa_off"><en>Off</en><de>Aus</de></text>
+        <text name="aa_note_super"><en>You are a super admin: you can change every role except other super admins'. Super admins can only be removed in admins.xml on the server.</en><de>Du bist Super-Admin: Du kannst jede Rolle ändern, außer die anderer Super-Admins. Super-Admins lassen sich nur in der admins.xml auf dem Server entfernen.</de></text>
+        <text name="aa_note_viewOnly"><en>Only super admins can change roles.</en><de>Nur Super-Admins können Rollen ändern.</de></text>
+        <text name="aa_note_superFixed"><en>Super admins can't be demoted in the game. To remove one, stop the server and edit modSettings/FS25_AutoAdmin/admins.xml.</en><de>Super-Admins können im Spiel nicht herabgestuft werden. Um einen zu entfernen, den Server stoppen und modSettings/FS25_AutoAdmin/admins.xml bearbeiten.</de></text>
+        <text name="aa_note_locked"><en>Locked out: a super admin demoted this player, so the admin password won't make them admin.</en><de>Gesperrt: Ein Super-Admin hat diesen Spieler herabgestuft, das Admin-Passwort macht ihn nicht zum Admin.</de></text>
+        <text name="aa_role_super"><en>Super admin</en><de>Super-Admin</de></text>
+        <text name="aa_role_admin"><en>Admin</en><de>Admin</de></text>
+        <text name="aa_role_member"><en>Member</en><de>Mitglied</de></text>
+        <text name="aa_status_you"><en>You</en><de>Du</de></text>
+        <text name="aa_status_online"><en>Online</en><de>Online</de></text>
+        <text name="aa_status_onlineAdmin"><en>Online, admin now</en><de>Online, gerade Admin</de></text>
+        <text name="aa_status_offline"><en>Offline</en><de>Offline</de></text>
+        <text name="aa_status_locked"><en>Locked out</en><de>Gesperrt</de></text>
+        <text name="aa_by_password"><en>Admin password</en><de>Admin-Passwort</de></text>
+        <text name="aa_by_first"><en>First admin login</en><de>Erste Admin-Anmeldung</de></text>
+        <text name="aa_by_file"><en>Server file</en><de>Server-Datei</de></text>
+        <text name="aa_button_promote"><en>Make admin</en><de>Zum Admin machen</de></text>
+        <text name="aa_button_demote"><en>Make member</en><de>Zum Mitglied machen</de></text>
+        <text name="aa_button_super"><en>Make super admin</en><de>Zum Super-Admin machen</de></text>
+        <text name="aa_button_forget"><en>Remove from list</en><de>Von der Liste entfernen</de></text>
+        <text name="aa_button_back"><en>Back</en><de>Zurück</de></text>
+        <text name="aa_sending"><en>Sending to the server...</en><de>Wird an den Server gesendet...</de></text>
+        <text name="aa_confirm_promote"><en>Make %s an admin? They get admin rights now and every time they join.</en><de>%s zum Admin machen? Er bekommt Admin-Rechte jetzt und bei jedem Beitreten.</de></text>
+        <text name="aa_confirm_demote"><en>Make %s a member? They lose their admin rights right away, and the admin password won't make them admin again.</en><de>%s zum Mitglied machen? Er verliert seine Admin-Rechte sofort, und das Admin-Passwort macht ihn nicht wieder zum Admin.</de></text>
+        <text name="aa_confirm_super"><en>Make %s a super admin? This can't be undone in the game: super admins can only be removed in the server's file.</en><de>%s zum Super-Admin machen? Das lässt sich im Spiel nicht rückgängig machen: Super-Admins lassen sich nur in der Datei auf dem Server entfernen.</de></text>
+        <text name="aa_confirm_forget"><en>Remove %s from the list? They show up again as a member the next time they join.</en><de>%s von der Liste entfernen? Beim nächsten Beitreten erscheint er wieder als Mitglied.</de></text>
+
+        <!-- answers to the admin screen -->
+        <text name="aa_result_admin"><en>%s is now an admin.</en><de>%s ist jetzt Admin.</de></text>
+        <text name="aa_result_super"><en>%s is now a super admin.</en><de>%s ist jetzt Super-Admin.</de></text>
+        <text name="aa_result_member"><en>%s is now a member.</en><de>%s ist jetzt Mitglied.</de></text>
+        <text name="aa_result_forgotten"><en>%s was removed from the list.</en><de>%s wurde von der Liste entfernt.</de></text>
+        <text name="aa_result_rememberOn"><en>Password logins are remembered again.</en><de>Passwort-Anmeldungen werden wieder gemerkt.</de></text>
+        <text name="aa_result_rememberOff"><en>Password logins are no longer remembered.</en><de>Passwort-Anmeldungen werden nicht mehr gemerkt.</de></text>
+        <text name="aa_error_superOnly"><en>Only super admins can change roles.</en><de>Nur Super-Admins können Rollen ändern.</de></text>
+        <text name="aa_error_superFixed"><en>Super admins can't be changed in the game.</en><de>Super-Admins lassen sich im Spiel nicht ändern.</de></text>
+        <text name="aa_error_gone"><en>That player is no longer on the list.</en><de>Dieser Spieler ist nicht mehr auf der Liste.</de></text>
+        <text name="aa_error_forget"><en>Only members who are offline can be removed from the list.</en><de>Nur Mitglieder, die offline sind, können von der Liste entfernt werden.</de></text>
+        <text name="aa_error_notAdmin"><en>Only admins can open the admin screen.</en><de>Nur Admins können die Admin-Übersicht öffnen.</de></text>
+        <text name="aa_error_singleplayer"><en>Auto Admin only works on a multiplayer server.</en><de>Auto Admin funktioniert nur auf einem Mehrspieler-Server.</de></text>
+
+        <!-- notifications -->
+        <text name="aa_notice_welcomeAdmin"><en>Welcome back, %s: your admin rights are restored.</en><de>Willkommen zurück, %s: Deine Admin-Rechte sind wiederhergestellt.</de></text>
+        <text name="aa_notice_welcomeSuper"><en>Welcome back, %s: your super admin rights are restored.</en><de>Willkommen zurück, %s: Deine Super-Admin-Rechte sind wiederhergestellt.</de></text>
+        <text name="aa_notice_firstSuper"><en>%s, you are this server's first super admin. Left Alt+A opens the admin screen.</en><de>%s, du bist der erste Super-Admin dieses Servers. Linke Alt-Taste+A öffnet die Admin-Übersicht.</de></text>
+        <text name="aa_notice_remembered"><en>%s, the server remembers you as an admin from now on.</en><de>%s, der Server merkt sich dich ab jetzt als Admin.</de></text>
+        <text name="aa_notice_promoted"><en>%s made you an admin.</en><de>%s hat dich zum Admin gemacht.</de></text>
+        <text name="aa_notice_promotedSuper"><en>%s made you a super admin.</en><de>%s hat dich zum Super-Admin gemacht.</de></text>
+        <text name="aa_notice_demoted"><en>%s made you a member: your admin rights were removed.</en><de>%s hat dich zum Mitglied gemacht: Deine Admin-Rechte wurden entfernt.</de></text>
+        <text name="aa_notice_lockedOut"><en>A super admin removed your admin rights: the admin password doesn't make you admin on this server.</en><de>Ein Super-Admin hat dir die Admin-Rechte entzogen: Das Admin-Passwort macht dich auf diesem Server nicht zum Admin.</de></text>
+    </l10n>
+</modDesc>
