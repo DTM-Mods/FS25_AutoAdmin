@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="116">
     <author>DTM Mods, Fennell</author>
-    <version>1.0.0.1</version>
+    <version>1.0.0.2</version>
     <title>
         <en>Auto Admin</en>
     </title>
@@ -19,7 +19,10 @@ The admin screen lists every player who has joined the server with their role, w
 
 The admin password works as before. The first player who logs in with it becomes the super admin. After that, a member who logs in with it becomes an admin (this can be turned off in the admin screen). A player a super admin demoted can't make themselves admin again with the password.
 
-Multiplayer only: install it on the server and on every player's game. The list is kept on the server in modSettings/FS25_AutoAdmin/admins.xml.]]></en>
+Multiplayer only: install it on the server and on every player's game. The list is kept on the server in modSettings/FS25_AutoAdmin/admins.xml.
+
+Changelog 1.0.0.2:
+- Admin screen: the scrollbar of the player list sat too low and hung out below the list; it now lines up with the list.]]></en>
         <de><![CDATA[Beschreibung: Der Server merkt sich, wer seine Admins sind, und macht sie bei jedem Beitreten wieder zum Admin. Es wird nirgends ein Passwort gespeichert, weder auf dem Server noch auf den Rechnern der Spieler.
 Tastenkombinationen: Linke Alt-Taste+A öffnet die Admin-Übersicht (nur für Admins). Controller: standardmäßig keine Belegung, unter Einstellungen > Steuerung festlegen.
 GitHub: https://github.com/DTM-Mods/FS25_AutoAdmin
@@ -33,7 +36,10 @@ Die Admin-Übersicht zeigt jeden Spieler, der dem Server beigetreten ist, mit se
 
 Das Admin-Passwort funktioniert wie bisher. Der erste Spieler, der sich damit anmeldet, wird Super-Admin. Danach wird ein Mitglied, das sich damit anmeldet, zum Admin (lässt sich in der Admin-Übersicht abschalten). Ein Spieler, den ein Super-Admin herabgestuft hat, kann sich mit dem Passwort nicht wieder zum Admin machen.
 
-Nur für den Mehrspielermodus: auf dem Server und im Spiel jedes Spielers installieren. Die Liste liegt auf dem Server in modSettings/FS25_AutoAdmin/admins.xml.]]></de>
+Nur für den Mehrspielermodus: auf dem Server und im Spiel jedes Spielers installieren. Die Liste liegt auf dem Server in modSettings/FS25_AutoAdmin/admins.xml.
+
+Changelog 1.0.0.2:
+- Admin-Übersicht: Die Bildlaufleiste der Spielerliste saß zu tief und ragte unter der Liste heraus; sie liegt jetzt neben der Liste.]]></de>
     </description>
     <iconFilename>icon_autoAdmin.dds</iconFilename>
     <multiplayer supported="true" />

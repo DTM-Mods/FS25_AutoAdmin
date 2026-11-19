@@ -1,5 +1,9 @@
 # Patch notes
 
+## 1.0.0.2
+
+- The changelog is in the mod description now (ModHub's TestRunner asks for one in every update). No change in the game.
+
 ## 1.0.0.1
 
 - Admin screen: the player list's scrollbar sat too low and hung out below the card; it now lines up with the list.
