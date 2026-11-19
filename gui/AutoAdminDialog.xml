@@ -71,8 +71,8 @@
                             <Bitmap profile="aaRowChevron" name="aaImg_chevron"/>
                         </ListItem>
                     </SmoothList>
-                    <ThreePartBitmap profile="fs25_listSliderBox" position="-6px -84px" size="10px 506px" with="anchorTopRight">
-                        <Slider profile="fs25_listSlider" size="6px 498px" dataElementId="playerList"/>
+                    <ThreePartBitmap profile="aaListSliderBox">
+                        <Slider profile="aaListSlider" dataElementId="playerList"/>
                     </ThreePartBitmap>
                     <Text profile="aaListNote" id="loadingText" text="$l10n_aa_loading"/>
                     <Text profile="aaListNote" id="emptyText" text="$l10n_aa_empty"/>
@@ -258,6 +258,14 @@
         <Profile name="aaList" extends="emptyPanel" with="anchorTopLeft">
             <position value="12px -84px"/>
             <size value="730px 506px"/>
+        </Profile>
+        <!-- the scrollbar: anchors must come from a profile (an inline "with" is ignored, the bar then sits centred) -->
+        <Profile name="aaListSliderBox" extends="fs25_listSliderBox" with="anchorTopRight">
+            <position value="-8px -84px"/>
+            <size value="10px 506px"/>
+        </Profile>
+        <Profile name="aaListSlider" extends="fs25_listSlider">
+            <size value="6px 498px"/>
         </Profile>
         <Profile name="aaListNote" extends="aaText">
             <position value="20px -150px"/>

@@ -1,5 +1,9 @@
 # Patch notes
 
+## 1.0.0.1
+
+- Admin screen: the player list's scrollbar sat too low and hung out below the card; it now lines up with the list.
+
 ## 1.0.0.0
 
 - First version: the server keeps every player's role (super admin, admin, member) and makes admins admin again when

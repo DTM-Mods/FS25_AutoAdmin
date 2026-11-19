@@ -245,10 +245,10 @@ def render_element(img, el, parent, profiles, ctx):
                 render_element(img, child, (box[0], y, box[2], rh), profiles, row_ctx)
             y += rh + spacing
         return
-    elif tag == "ThreePartBitmap" and "listSliderBox" in attrs.get("profile", ""):
+    elif tag == "ThreePartBitmap" and "listsliderbox" in attrs.get("profile", "").lower():
         layer = Image.new("RGBA", img.size, (0, 0, 0, 0))
         d = ImageDraw.Draw(layer)
-        x, y, w, h = place(parent, {}, attrs.get("with", "anchorTopLeft"), attrs)
+        x, y, w, h = box
         d.rounded_rectangle([x + 2, y, x + w - 2, y + h], radius=3, fill=(255, 255, 255, 20))
         d.rounded_rectangle([x + 2, y + 4, x + w - 2, y + h * 0.62], radius=3, fill=rgba(COLOR["gold"], 0.9))
         img.alpha_composite(layer)
